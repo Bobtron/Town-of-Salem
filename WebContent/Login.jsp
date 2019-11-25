@@ -4,18 +4,43 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Town of SC</title>
+<title>Town of SC: Login</title>
+<style>
+	.loginform {
+		color: white;
+		width: 300px;
+		margin-left: auto;
+		margin-right: auto;
+		margin-top: 34%;
+	}
+	input {
+		width: 300px;
+		height: 20px;
+		margin-bottom: 20px;
+	}
+	.button {
+		width: 306px;
+		height: 30px;
+		margin-top: 13px;
+		background-color: orange;
+		font-size: 1.2em;
+		color: white;
+	}
+	body {
+		background-image: url("images/welcometitlecropped.png");
+		background-repeat: no-repeat;
+		background-size: cover;
+	}
+</style>
 </head>
 <body>
 
-Town of SC
-
-<form name="loginform" method="POST" action="LoginServlet">
-	Username
-	<input type="text" name="user" placeholder="Enter your username"><br>
-	Password
-	<input type="password" name="pass" placeholder="Enter your password"><br>
-	<input type="submit" value="Login"/>
+<form class="loginform" name="loginform" method="POST" action="LoginServlet">
+	Username <br>
+	<input type="text" name="user" required><br>
+	Password <br>
+	<input type="password" name="pass" required><br>
+	<input class="button" type="submit" value="LOGIN"/>
 </form>
 
 </body>
