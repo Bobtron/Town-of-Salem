@@ -1,7 +1,5 @@
-package Serv;
+package ServerSocket;
 
-import java.io.IOException;
-import java.util.Vector;
 
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
@@ -12,31 +10,26 @@ import javax.websocket.server.ServerEndpoint;
 
 @ServerEndpoint(value = "/ws")
 public class ServerSocket {
-	private static Vector<Session> sessionVector = new Vector<Session>();
+	private static int currentID = 1;
+	private int thisID;
 	
 	@OnOpen
 	public void open(Session session) {
 		System.out.println("Connection made!");
-		sessionVector.add(session);
+		thisID = currentID++;
+		Server.open(thisID, session);
 	}
 	
 	@OnMessage
 	public void onMessage(String message, Session session) {
-		System.out.println(message);
-		try {
-			for(Session s : sessionVector) {
-				s.getBasicRemote().sendText(message);
-			}
-		} catch (IOException ioe) {
-			System.out.println("ioe: " + ioe.getMessage());
-			close(session);
-		}
+		//System.out.println(message);
+		Server.onMessage(thisID, message);
 	}
 	
 	@OnClose
 	public void close(Session session) {
 		System.out.println("Disconnecting!");
-		sessionVector.remove(session);
+		Server.close(thisID);
 	}
 	
 	@OnError
