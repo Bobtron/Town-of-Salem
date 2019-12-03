@@ -13,22 +13,21 @@ public class ServerThread extends Thread {
 	}
 	
 	public void onMessage(String message) {
-		this.start();
+		sendText(message);
+	}
+	
+	public void sendText(String message) {
+		try {
+			session.getBasicRemote().sendText(message);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Override
 	public void run() {
 		while(true) {
-			try {
-				session.getBasicRemote().sendText("testing");
-				this.sleep(1000);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			
 		}
 	}
 	
