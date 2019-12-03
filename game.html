@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<link href="styles.css" rel="stylesheet" type="text/css"></link>
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+<body style="background-color: #84d2f6">
+	<!-- #fff6ec for interface -->
+	<div class = "user-tag">
+		
+	</div>
+	<div class="container">
+		<div class="row">
+		  	<div class = "col-9" style="padding-top: 40px;">
+		  		<div class="row">
+		  			<div class="col-3">
+			  			<span class="dot" id ="girl1"><img class="icon" src="girl3.png"></span>
+			  			<p>jessindo</p>
+
+				    </div>
+				    <div class="col-3" style="text-align: center;">
+				    	<span class="dot"><img  class="icon" src="girl.png"></span>
+				    	<p>ashleysu</p>
+				    </div>
+				    <div class="col-3">
+				      	<span class="dot"><img  class="icon" src="girl1.png"></span>
+				      	<p>renac</p>
+				    </div>	
+				    <div class="col-3">
+				      	<span class="dot"><img  class="icon" src="girl5.png"></span>
+				      	<p>guest-alisa</p>
+				    </div>
+				</div>
+				<!-- <div class="row">
+		  			<div class="col-3">
+			  			<span class="dot"></span>
+			  			<p>jacobi</p>
+				    </div>
+				    <div class="col-3">
+				      	<span class="dot"></span>
+				      	<p>bobtron</p>
+				    </div>
+				    <div class="col-3">
+				      	<span class="dot"></span>
+				      	<p>boyuan</p>
+				    </div>	
+				</div> -->
+		  	</div>
+		  	<div class = "col-3">
+		  		<div class = "box"></div>
+		  	</div>
+		</div>
+		<div class="row" style="margin-top: 30px">
+			<div class = "col-6">
+				<div class = "box"></div>
+			</div>
+			<!-- voting shit -->
+			<div class = "col-3">
+				           
+				<div class = "box">
+					
+					 <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h5 class="panel-title">
+                        <span>Who do you want to dismount?</span>
+                    </h>
+                </div>
+                <div class="panel-body">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="optionsRadios">
+                                    Good
+                                </label>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="optionsRadios">
+                                    Excellent
+                                </label>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="optionsRadios">
+                                    Bed
+                                </label>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="optionsRadios">
+                                    Can Be Improved
+                                </label>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="optionsRadios">
+                                    No Comment
+                                </label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="panel-footer">
+                    <button type="button" class="btn btn-primary btn-sm">
+                        Vote
+                    </button>
+                </div>
+            </div>
+
+				</div>
+			</div>
+			<div class = "col-3">
+				<div class = "box"></div>
+			</div>
+		</div>
+
+	</div>
+
+	<script>
+		function toNight(){
+			document.querySelector("body").style.backgroundColor = "#133c55";
+			document.querySelectorAll('p').forEach(e => e.style.color = "white");
+
+		}
+		function toDay(){
+			document.querySelector("body").style.backgroundColor = "#84d2f6";
+			document.querySelectorAll('p').forEach(e => e.style.color = "black");
+		}
+	</script>
+
+</body>
+</html>
