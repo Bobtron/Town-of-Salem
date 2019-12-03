@@ -1,4 +1,4 @@
-package serv;
+package ServerSocket;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -44,11 +44,9 @@ public class LoginServlet extends HttpServlet {
 	        rs = ps.executeQuery();
 	        if(rs.next()) {//user exists
 	        	if(password.matches(rs.getString("password"))) { //username AND password are correct
-		    		session.setAttribute("u", username); //save for later
-		    		session.setAttribute("uid", rs.getInt("userID"));
+		    		session.setAttribute("username", username); //save for later
 		    		
-		    		request.setAttribute("LoginError", "CORRECTLY LOGGED IN"); //get rid of this line!!!!!!
-		    		nxtjsp="Login.jsp";//CHANGE THIS TO REDIRECRT TO LOBBY.JSP!!!!!!!!!!
+		    		nxtjsp="Main.jsp";
 	        	} else {
 	        		//user exists, incorrect password
 	        		nxtjsp="Login.jsp";

@@ -8,14 +8,30 @@ public class User {
 	String username;
 	Session s;
 	int index;
+	String imageURL;
 	
 	
-	public User(String username, Session s) {
+	public User(String username, Session s, String imageURL) {
 		super();
 		this.username = username;
 		this.s = s;
+		this.imageURL = imageURL;
 	}
 	
+	
+	
+	public String getImageURL() {
+		return imageURL;
+	}
+
+
+
+	public void setImageURL(String imageURL) {
+		this.imageURL = imageURL;
+	}
+
+
+
 	public int getIndex() {
 		return index;
 	}

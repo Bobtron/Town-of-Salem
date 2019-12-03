@@ -19,7 +19,7 @@ public class ServerThread extends Thread {
 	
 	public void onMessage(String message) {
 		System.out.println(message);
-		sendText(message);
+		//sendText("CLIENT: " + message);
 		/**large sections is
 		 * 
 		 * chat of all kinds
@@ -31,7 +31,7 @@ public class ServerThread extends Thread {
 		String TYPE = args[0];
 		String remainder = message.substring(message.indexOf('|') + 1);
 		
-		String org = message.replace('|', '-');
+		String org = args[1];
 		
 		//System.out.println(TYPE);
 		switch (TYPE) {
@@ -91,11 +91,11 @@ public class ServerThread extends Thread {
 		
 		switch (CMD) {
 	        case "ALL":
-	        	gt.voteAll(remainder, user, org);
+	        	gt.vote(remainder, user, org);
 	        	break;
 	        	
 	        case "MAFIA":
-	        	gt.voteMafia(remainder, user, org);
+	        	gt.vote(remainder, user, org);
 	        	break;
 		}
 	}
@@ -135,9 +135,10 @@ public class ServerThread extends Thread {
 	private void createUser(String message, String org) {
 		String[] args = message.split(Pattern.quote("|"));
 		String username = args[0];
+		String imageURL = args[1];
 		
 		//System.out.println(username);
-		user = new User(username, this.session);
+		user = new User(username, this.session, imageURL);
 		sendText("RESPONSE|TRUE|" + org);
 	}
 	

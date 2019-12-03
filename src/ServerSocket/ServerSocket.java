@@ -39,5 +39,6 @@ public class ServerSocket {
 	@OnError
 	public void error(Throwable error) {
 		System.out.println("Error!");
+		error.printStackTrace();
 	}
 }

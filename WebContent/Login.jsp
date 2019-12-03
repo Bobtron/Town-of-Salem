@@ -68,6 +68,8 @@
 </head>
 <body>
 
+${LoginError}
+	
 <form id="loginform" name="loginform" method="POST" action="LoginServlet">
 	<div class="fields">
 		Username <br>

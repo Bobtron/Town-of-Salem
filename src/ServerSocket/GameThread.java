@@ -13,6 +13,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import javax.websocket.Session;
 
 
+
 public class GameThread extends Thread {
 	
 	String gameName;
@@ -28,6 +29,10 @@ public class GameThread extends Thread {
 	ArrayList<User> dead;
 	ArrayList<User> mafiaPeople;
 	ArrayList<User> townsPeople;
+	
+	ArrayList<Integer> votes;
+	ArrayList<String> candidates;
+	int numVoted;
 	
 	
 	public GameThread(String gameName, int totalUsers) {
@@ -47,7 +52,11 @@ public class GameThread extends Thread {
 		this.dead = new ArrayList<User>();
 		this.mafiaPeople = new ArrayList<User>();
 		this.townsPeople = new ArrayList<User>();
-				
+		
+		this.votes = new ArrayList<Integer>();
+		this.candidates = new ArrayList<String>();
+		this.numVoted = 0;
+		
 		this.start();
 	}
 	
@@ -67,21 +76,99 @@ public class GameThread extends Thread {
 	}
 	
 	public void sendChatAll(String remainder, User user, String org) {
-		broadcastAll("CHAT|ALL|" + remainder);
+		broadcastAll("CHAT|ALL|" + user.getUsername() + "|" + remainder);
 	}
 
 	public void sendChatMafia(String remainder, User user, String org) {
-		broadcastTo("CHAT|MAFIA|" + remainder, mafiaPeople);
+		broadcastTo("CHAT|MAFIA|" + user.getUsername() + "|" + remainder, mafiaPeople);
 	}
 	
-	public void voteAll(String remainder, User user, String org) {
+	public void vote(String remainder, User user, String org) {
 		String[] args = remainder.split("|");
-		
+		String target = args[0];
+		for(int i = 0; i < candidates.size(); i++) {
+			if(candidates.get(i).equals(target)) {
+				votes.set(i,votes.get(i) + 1);
+				numVoted++;
+				return;
+			}
+		}
+		candidates.add(target);
+		votes.add(1);
+		numVoted++;
 	}
 
-	public void voteMafia(String remainder, User user, String org) {
+	/*public void voteMafia(String remainder, User user, String org) {
 		String[] args = remainder.split("|");
+		String target = args[0];
+		for(int i = 0; i < candidates.size(); i++) {
+			if(candidates.get(i).equals(target)) {
+				votes.set(i,votes.get(i) + 1);
+				return;
+			}
+		}
+		candidates.add(target);
+		votes.add(1);
 		
+		numVoted = numVoted + 1;
+	}*/
+	
+	public String getUsernames(ArrayList<User> arr) {
+		String returnThis = "";
+		for(int i = 0; i < arr.size(); i++) {
+			returnThis += "|" + arr.get(i).getUsername();
+		}
+		return returnThis;
+	}
+	
+	public User getVotingTarget() {
+		User returnThis = null;
+		
+		int mostVotes = 0;
+		ArrayList<String> usernames = new ArrayList<String>();
+		for(int i = 0; i < votes.size(); i++) {
+			if(votes.get(i) > mostVotes) {
+				usernames = new ArrayList<String>();
+				usernames.add(candidates.get(i));
+				mostVotes = votes.get(i);
+			}else if(votes.get(i) == mostVotes) {
+				usernames.add(candidates.get(i));
+			}
+		}
+		
+		String deadman = usernames.get(random.nextInt(usernames.size()));
+		for(int i = 0; i < alive.size(); i++) {
+			if(alive.get(i).getUsername().equals(deadman)) {
+				returnThis = alive.get(i);
+			}
+		}
+		
+		return returnThis;
+	}
+	
+	public void removeUser(User deadman) {
+		dead.add(deadman);
+		alive.remove(deadman);
+		for(int i = 0; i < mafiaPeople.size(); i++) {
+			if(deadman.equals(mafiaPeople.get(i))) {
+				mafiaPeople.remove(i);
+				return;
+			}
+		}
+		for(int i = 0; i < townsPeople.size(); i++) {
+			if(deadman.equals(townsPeople.get(i))) {
+				townsPeople.remove(i);
+				return;
+			}
+		}
+	}
+	
+	public String getVoteResults() {
+		String returnThis = "";
+		for(int i = 0; i < candidates.size(); i++) {
+			returnThis += "|" + candidates.get(i) + "|" + votes.get(i);
+		}
+		return returnThis;
 	}
 
 	@Override
@@ -91,8 +178,12 @@ public class GameThread extends Thread {
 		}
 		Thread.yield();
 		
-		int numVoted = 0;
+		numVoted = 0;
+		this.votes = new ArrayList<Integer>();
+		this.candidates = new ArrayList<String>();
+		
 		started = true;
+		User deadman;
 		
 		broadcastAll("STATUS|GAME_START");
 		
@@ -104,41 +195,76 @@ public class GameThread extends Thread {
 		
 		broadcastTo("CLASS|MAFIA", mafiaPeople);
 		broadcastTo("CLASS|TOWNS", townsPeople);
-		String players = "PLAYER_NAMES";
+		
+		
+		String players = "PLAYER_INFO"; //+ getUsernames(alive);
 		for(int i = 0; i < everyone.size(); i++) {
-			players += "|" + everyone.get(i).getUsername();
+			players += "|" + everyone.get(i).getUsername() + "|" + everyone.get(i).getImageURL();
 		}
 		broadcastAll(players);
 		
 		while(true) {
-			broadcastTo("STATUS|GAME_NIGHT", alive);
+			
+			
+			broadcastAll("STATUS|GAME_NIGHT");
 			
 			broadcastTo("VOTE|MAFIA", mafiaPeople);
+			broadcastTo("MAFIA_NAMES" + getUsernames(mafiaPeople), mafiaPeople);
+			broadcastTo("TOWNS_NAMES" + getUsernames(townsPeople), mafiaPeople);
 			
 			while(numVoted < mafiaPeople.size()) {
 				Thread.yield();
 			}
 			
-			//TODO analyze the vote
-			numVoted = 0;
+			deadman = getVotingTarget();
+			broadcastAll("VOTE_RESULTS|MAFIA" + getVoteResults());
+			removeUser(deadman);
 			
-			broadcastTo("STATUS|GAME_DAY", alive);
+			if(mafiaPeople.size() == 0) {
+				broadcastAll("WIN|TOWNSPEOPLE");
+				break;
+			}else if(townsPeople.size() == 0) {
+				broadcastAll("WIN|MAFIA");
+				break;
+			}
+					
+			numVoted = 0;
+			this.votes = new ArrayList<Integer>();
+			this.candidates = new ArrayList<String>();
+			
+			broadcastAll("STATUS|GAME_DAY");
 			
 			broadcastTo("VOTE|ALL", alive);
+			players = "ALIVE_NAMES" + getUsernames(alive);
+			broadcastAll(players);
 			
 			while(numVoted < alive.size()) {
+				//System.out.println(numVoted + " " + alive.size());
 				Thread.yield();
 			}
 			
-			//TODO analyze the vote
+			deadman = getVotingTarget();
+			broadcastAll("VOTE_RESULTS|TOWNS" + getVoteResults());
+			removeUser(deadman);
+			
+			if(mafiaPeople.size() == 0) {
+				broadcastAll("WIN|TOWNSPEOPLE");
+				break;
+			}else if(townsPeople.size() == 0) {
+				broadcastAll("WIN|MAFIA");
+				break;
+			}
+			
 			numVoted = 0;
+			this.votes = new ArrayList<Integer>();
+			this.candidates = new ArrayList<String>();
 			
 			break;
 		}
 		
 		broadcastAll("STATUS|GAME_END");
 	}
-	
+
 	public void broadcastAll(String message) {
 		System.out.println(message);
 		try {
