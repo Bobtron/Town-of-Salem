@@ -7,67 +7,23 @@
 
 </head>
 <body>
-	<div id="background">
+<div id="background">
 
-<div class="card">
-  	<div class="card-body">
-    	jessindo  
-    </div>
-</div>
-<br>
+	<div class="card">
+	  	<div class="card-body">
+	    	jessindo  
+	    </div>
+	</div>
+	<br>
 	<div id="dom-section" class="section">
 		
 		<h3>Join My Room!!! 
 			<button style="margin-left:20px; float: right;">Join</button> 
-			<a style="float: right;">7/16</a>
+			<a style="float: right;">4 players</a>
 		</h3>
 		
-		<div class="container">
-		  <div class="row">
-		  	<div class = "col-10">
-		  		<div class="row">
-		  			<div class="col-3">
-		  				<p>jessindo</p>
-			  			<span class="dot"></span>
-				    </div>
-				    <div class="col-3">
-				    	<p>ashleysu</p>
-				      	<span class="dot"></span>
-				    </div>
-				    <div class="col-3">
-				    	<p>renac</p>
-				      	<span class="dot"></span>
-				    </div>	
-				    <div class="col-3">
-				    	<p>alisa</p>
-				      	<span class="dot"></span>
-				    </div>
-				</div>
-				<div class="row">
-		  			<div class="col-3">
-		  				<p>jacobi</p>
-			  			<span class="dot"></span>
-				    </div>
-				    <div class="col-3">
-				    	<p>bobtron</p>
-				      	<span class="dot"></span>
-				    </div>
-				    <div class="col-3">
-				    	<p>boyuan</p>
-				      	<span class="dot"></span>
-				    </div>	
-				</div>
-		  	</div>
-		  	<div class = "col-2 my-auto">
-		  		<div class="row">
-		  			<a href="game.html" target="_self" class="btn btn-lg btn-primary col-10">Start</a>
-		  		</div>
-		  		<div class="row">
-		  			<button type="button" class="btn btn-lg btn-primary col-10" style="margin-top:20px;">Ready</button>
-		  		</div>
-		  	</div>
-		    
-		  </div>
+		<div class="container-border" id="gameRoom">
+			<h2 id="waiting">Waiting...</h2>
 		</div>
 
 		<h3>Hello World!! <button style="float: right;">Join</button> </h3>
@@ -76,17 +32,14 @@
 		<h3>Another game room <button style="float: right;">Join</button> </h3>
 		<p>Interdum sed, finibus in nibh. Praesent eros lectus, fermentum at enim non, porta ultrices nisi. Aliquam odio libero, commodo id pulvinar eget, gravida non turpis. In mi massa, placerat ut ex sed, mollis imperdiet elit. Interdum et malesuada fames ac ante ipsum primis in faucibus. Morbi ultrices scelerisque fermentum. Quisque luctus sapien vitae dignissim ornare. Donec non lorem sagittis, condimentum augue vel, suscipit nisl. Praesent blandit eu ligula eu dictum. Donec faucibus purus in urna mollis, nec vulputate sem mollis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aliquam vulputate dignissim libero, ut blandit massa ultrices et. Fusce mattis luctus nibh. Donec rhoncus pretium lectus id sodales.</p>
 
- 		<!-- <h3><button style="float: right;">Create a Room</button></h3>	 -->
  		<button class="btn btn-primary btn-lg btn-block" onclick="openForm()">Create a Room</button>
 		
 		</div>
 
-
-
 	</div> <!-- #dom-section -->
 </div>
 <div style="margin: auto;" class="form-popup" id="myForm">
-		  <form action="" class="form-container">
+		  <form name="game_connection" action="" class="form-container">
 		    <h4>Create Room</h4>
 
 		    <label for="roomName"><b>Name</b></label>
@@ -94,15 +47,13 @@
 
 		    	<div class = "row">
 		    		<div class="col">
-			    		<button type="submit" class="btn">Submit</button>	
+			    		<button type="submit" class="btn" onclick="parent.create()">Submit</button>	
 		    		</div>
 		    		<div class="col">
 		    			<button type="button" class="btn cancel" onclick="closeForm()">Cancel</button>
 		    		</div>
 			    </div>
-		    </div>
-		   
-		    
+		    </div> 
 		  </form>
 	<script>
 	function openForm() {
@@ -133,9 +84,42 @@
 		} else{
 			this.nextElementSibling.classList.add('hide');
 		}
-	}
+	}	
 }
+	
+	function toCircles() {
+		let gameRoom = document.getElementById("gameRoom");
+		gameRoom.innerHTML +=  document.getElementById('blockOfStuff').innerHTML;
+		document.getElementById("waiting").classList.add('hide');
+		// the code below calls myFunction after 5000ms or 5s
+		// setTimeout(myFunction, 5000)
+	}
+		</script>
 
-	</script>
+		<script id="blockOfStuff" type="text/html">
+		    <div class="row">
+			  	<div class = "col-12">
+			  		<div class="row">
+			  			<div class="col-3">
+			  				<p>jessindo</p>
+				  			<span class="dot"><img class="icon" src="girl3.png"></span>
+					    </div>
+					    <div class="col-3">
+					    	<p>ashleysu</p>
+					      	<span class="dot"><img  class="icon" src="girl.png"></span>
+					    </div>
+					    <div class="col-3">
+					    	<p>renac</p>
+					      	<span class="dot"><img  class="icon" src="girl1.png"></span>
+					    </div>	
+					    <div class="col-3">
+					    	<p>guest-alisa</p>
+					      	<span class="dot"><img  class="icon" src="girl5.png"></span>
+					    </div>
+					</div>
+				</div>
+			</div>
+		</script>
+
 </body>
 </html>
