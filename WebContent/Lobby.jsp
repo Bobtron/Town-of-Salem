@@ -18,7 +18,7 @@
 	<div id="dom-section" class="section">
 		
 		<h3>Join My Room!!! 
-			<button style="margin-left:20px; float: right;">Join</button> 
+			<button onclick="parent.join();" style="margin-left:20px; float: right;">Join</button> 
 			<a style="float: right;">4 players</a>
 		</h3>
 		
