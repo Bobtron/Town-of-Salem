@@ -37,9 +37,27 @@
 		};
 	}
 	
-	function sendChat() {
+	function sendChat(){
+		if(state=="NIGHT") sendChatMafia();
+		if(state=="DAY") sendChatAll();
+	}
+	
+	function sendChatAll() {
 		if(chatboxDoc.chatform.message.value){
 			var str = "CHAT|ALL|" + chatboxDoc.chatform.message.value;
+			console.log(str);
+			sendMessage(str);
+			chatboxDoc.chatform.message.value = "";
+		}else{
+			var str = chatboxDoc.chatform.terminal.value;
+			console.log(str);
+			sendMessage(str);
+		}
+		return false;
+	}
+	function sendChatMafia() {
+		if(chatboxDoc.chatform.message.value){
+			var str = "CHAT|MAFIA|" + chatboxDoc.chatform.message.value;
 			console.log(str);
 			sendMessage(str);
 			chatboxDoc.chatform.message.value = "";
