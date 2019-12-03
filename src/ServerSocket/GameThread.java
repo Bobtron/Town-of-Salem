@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -19,11 +20,14 @@ public class GameThread extends Thread {
 	int usersLeft;
 	boolean started;
 	boolean gameOver;
+	int numMafia;
+	Random random;
 	
-	ArrayList<User> users;
-	ArrayList<Boolean> dead;
-	ArrayList<Integer> mafiaIndex;
-	ArrayList<Integer> townsPeopleIndex;
+	ArrayList<User> everyone;
+	ArrayList<User> alive;
+	ArrayList<User> dead;
+	ArrayList<User> mafiaPeople;
+	ArrayList<User> townsPeople;
 	
 	
 	public GameThread(String gameName, int totalUsers) {
@@ -34,17 +38,21 @@ public class GameThread extends Thread {
 		this.gameName = gameName;
 		this.totalPlayers = totalUsers;
 		this.usersLeft = totalUsers;
+		this.numMafia = totalUsers / 4;
 		
-		this.users = new ArrayList<User>();
-		this.dead = new ArrayList<Boolean>();
-		this.mafiaIndex = new ArrayList<Integer>();
-		this.townsPeopleIndex = new ArrayList<Integer>();
+		random = new Random();
+		
+		this.everyone = new ArrayList<User>();
+		this.alive = new ArrayList<User>();
+		this.dead = new ArrayList<User>();
+		this.mafiaPeople = new ArrayList<User>();
+		this.townsPeople = new ArrayList<User>();
 				
 		this.start();
 	}
 	
 	public boolean hasSpace() {
-		return !started && totalPlayers > users.size();
+		return !started && totalPlayers > everyone.size();
 	}
 
 	public String getGameName() {
@@ -52,28 +60,91 @@ public class GameThread extends Thread {
 	}
 	
 	public synchronized void addUser(User user) {
-		users.add(user);
-		dead.add(false);
+		everyone.add(user);
+		townsPeople.add(user);
+		alive.add(user);
+		user.setIndex(everyone.size() - 1);
+	}
+	
+	public void sendChatAll(String remainder, User user, String org) {
+		broadcastAll("CHAT|ALL|" + remainder);
+	}
+
+	public void sendChatMafia(String remainder, User user, String org) {
+		broadcastTo("CHAT|MAFIA|" + remainder, mafiaPeople);
+	}
+	
+	public void voteAll(String remainder, User user, String org) {
+		String[] args = remainder.split("|");
+		
+	}
+
+	public void voteMafia(String remainder, User user, String org) {
+		String[] args = remainder.split("|");
+		
+	}
+
+	@Override
+	public void run() {
+		while(everyone.size() < totalPlayers) {
+			Thread.yield();
+		}
+		Thread.yield();
+		
+		int numVoted = 0;
+		started = true;
+		
+		broadcastAll("STATUS|GAME_START");
+		
+		for(int i = 0; i < numMafia; i++) {
+			int removeThis = random.nextInt(townsPeople.size());
+			User user = townsPeople.remove(removeThis);
+			mafiaPeople.add(user);
+		}
+		
+		broadcastTo("CLASS|MAFIA", mafiaPeople);
+		broadcastTo("CLASS|TOWNS", townsPeople);
+		String players = "PLAYER_NAMES";
+		for(int i = 0; i < everyone.size(); i++) {
+			players += "|" + everyone.get(i).getUsername();
+		}
+		broadcastAll(players);
+		
+		while(true) {
+			broadcastTo("STATUS|GAME_NIGHT", alive);
+			
+			broadcastTo("VOTE|MAFIA", mafiaPeople);
+			
+			while(numVoted < mafiaPeople.size()) {
+				Thread.yield();
+			}
+			
+			//TODO analyze the vote
+			numVoted = 0;
+			
+			broadcastTo("STATUS|GAME_DAY", alive);
+			
+			broadcastTo("VOTE|ALL", alive);
+			
+			while(numVoted < alive.size()) {
+				Thread.yield();
+			}
+			
+			//TODO analyze the vote
+			numVoted = 0;
+			
+			break;
+		}
+		
+		broadcastAll("STATUS|GAME_END");
 	}
 	
 	public void broadcastAll(String message) {
+		System.out.println(message);
 		try {
-			for(int i = 0; i < users.size(); i++) {
-				Session s = users.get(i).getS();
+			for(int i = 0; i < everyone.size(); i++) {
+				Session s = everyone.get(i).getS();
 				s.getBasicRemote().sendText(message);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void broadcastAll(String message, int exclude) {
-		try {
-			for(int i = 0; i < users.size(); i++) {
-				if(i != exclude) {
-					Session s = users.get(i).getS();
-					s.getBasicRemote().sendText(message);
-				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -81,31 +152,34 @@ public class GameThread extends Thread {
 	}
 	
 	public void broadcastTo(String message, int target) {
+		System.out.println(message);
 		try {
-			Session s = users.get(target).getS();
+			Session s = everyone.get(target).getS();
 			s.getBasicRemote().sendText(message);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void broadcastTo(String message, ArrayList<Integer> arr) {
+	public void broadcastTo(String message, User user) {
+		System.out.println(message);
 		try {
-			for(int i = 0; i < arr.size(); i++) {
-				Session s = users.get(arr.get(i)).getS();
-				s.getBasicRemote().sendText(message);
-			}
+			Session s = user.getS();
+			s.getBasicRemote().sendText(message);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public synchronized boolean getGameOver() {
-		return gameOver;
-	}
-
-	@Override
-	public void run() {
-		
+	public void broadcastTo(String message, ArrayList<User> arr) {
+		System.out.println(message);
+		try {
+			for(int i = 0; i < arr.size(); i++) {
+				Session s = arr.get(i).getS();
+				s.getBasicRemote().sendText(message);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

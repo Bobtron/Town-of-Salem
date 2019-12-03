@@ -7,6 +7,7 @@ import javax.websocket.Session;
 public class User {
 	String username;
 	Session s;
+	int index;
 	
 	
 	public User(String username, Session s) {
@@ -15,7 +16,14 @@ public class User {
 		this.s = s;
 	}
 	
-	
+	public int getIndex() {
+		return index;
+	}
+
+	public void setIndex(int index) {
+		this.index = index;
+	}
+
 	public String getUsername() {
 		return username;
 	}

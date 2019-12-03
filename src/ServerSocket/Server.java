@@ -9,6 +9,11 @@ import javax.websocket.Session;
 public class Server {
 
 	private static Map<Integer, ServerThread> map = new HashMap<Integer, ServerThread>();
+	private static GamesManager gm;
+	
+	public Server() {
+		gm = new GamesManager();
+	}
 	
 	public void onMessage(int thisID, String message) {
 		ServerThread st = map.get(thisID);
@@ -22,7 +27,7 @@ public class Server {
 	}
 
 	public void open(int thisID, Session session) {
-		ServerThread st = new ServerThread(session);
+		ServerThread st = new ServerThread(session, gm);
 		map.put(thisID, st);
 	}
 }

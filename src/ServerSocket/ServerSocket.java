@@ -12,7 +12,7 @@ import javax.websocket.server.ServerEndpoint;
 public class ServerSocket {
 	private static int currentID = 1;
 	private int thisID;
-	private Server server;
+	private static Server server;
 	
 	@OnOpen
 	public void open(Session session) {
@@ -28,7 +28,6 @@ public class ServerSocket {
 	@OnMessage
 	public void onMessage(String message, Session session) {
 		server.onMessage(thisID, message);
-		//server.onMessage(thisID, "ID: " + thisID);
 	}
 	
 	@OnClose

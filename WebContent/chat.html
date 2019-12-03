@@ -18,7 +18,7 @@
 				};
 			}
 			function sendMessage() {
-				socket.send(document.chatform.name.value + ":  "  + document.chatform.message.value);
+				socket.send(/*document.chatform.name.value + ":  "  + */document.chatform.message.value);
 				document.chatform.message.value = "";
 				return false;
 			}
