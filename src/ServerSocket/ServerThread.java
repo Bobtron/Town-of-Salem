@@ -125,7 +125,7 @@ public class ServerThread extends Thread {
 		if(gm.existGame(gameName)) {
 			sendText("RESPONSE|FALSE|" + org);
 		}else {
-			GameThread gt = new GameThread(gameName, numPlayers);
+			gt = new GameThread(gameName, numPlayers);
 			sendText("RESPONSE|TRUE|" + org);
 			gt.addUser(user);
 			gm.addGame(gt);

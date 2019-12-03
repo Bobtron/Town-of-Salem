@@ -43,7 +43,7 @@ public class GameThread extends Thread {
 		this.gameName = gameName;
 		this.totalPlayers = totalUsers;
 		this.usersLeft = totalUsers;
-		this.numMafia = totalUsers / 4;
+		this.numMafia = (int) Math.ceil(totalUsers / 4);
 		
 		random = new Random();
 		
@@ -209,8 +209,10 @@ public class GameThread extends Thread {
 			broadcastAll("STATUS|GAME_NIGHT");
 			
 			broadcastTo("VOTE|MAFIA", mafiaPeople);
-			broadcastTo("MAFIA_NAMES" + getUsernames(mafiaPeople), mafiaPeople);
-			broadcastTo("TOWNS_NAMES" + getUsernames(townsPeople), mafiaPeople);
+//			broadcastTo("MAFIA_NAMES" + getUsernames(mafiaPeople), mafiaPeople);
+//			broadcastTo("TOWNS_NAMES" + getUsernames(townsPeople), mafiaPeople);
+			players = "ALIVE_NAMES" + getUsernames(alive);
+			broadcastAll(players);
 			
 			while(numVoted < mafiaPeople.size()) {
 				Thread.yield();
@@ -218,6 +220,7 @@ public class GameThread extends Thread {
 			
 			deadman = getVotingTarget();
 			broadcastAll("VOTE_RESULTS|MAFIA" + getVoteResults());
+			broadcastAll("DEADMAN|" + deadman.getUsername());
 			removeUser(deadman);
 			
 			if(mafiaPeople.size() == 0) {
@@ -245,6 +248,7 @@ public class GameThread extends Thread {
 			
 			deadman = getVotingTarget();
 			broadcastAll("VOTE_RESULTS|TOWNS" + getVoteResults());
+			broadcastAll("DEADMAN|" + deadman.getUsername());
 			removeUser(deadman);
 			
 			if(mafiaPeople.size() == 0) {
