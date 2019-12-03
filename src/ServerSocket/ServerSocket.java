@@ -12,24 +12,29 @@ import javax.websocket.server.ServerEndpoint;
 public class ServerSocket {
 	private static int currentID = 1;
 	private int thisID;
+	private Server server;
 	
 	@OnOpen
 	public void open(Session session) {
+		if(server == null) {
+			server = new Server();
+		}
+		
 		System.out.println("Connection made!");
 		thisID = currentID++;
-		Server.open(thisID, session);
+		server.open(thisID, session);
 	}
 	
 	@OnMessage
 	public void onMessage(String message, Session session) {
-		//System.out.println(message);
-		Server.onMessage(thisID, message);
+		//server.onMessage(thisID, message);
+		server.onMessage(thisID, "ID: " + thisID);
 	}
 	
 	@OnClose
 	public void close(Session session) {
 		System.out.println("Disconnecting!");
-		Server.close(thisID);
+		server.close(thisID);
 	}
 	
 	@OnError
