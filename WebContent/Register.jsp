@@ -68,6 +68,8 @@
 </head>
 <body>
 
+${RegError}
+
 <form id="registerform" name="registerform" method="POST" action="RegisterServlet">
 	<div class="fields">
 		Username <br>
