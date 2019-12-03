@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<link href="styles.css" rel="stylesheet" type="text/css"></link>
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+<body>
+	<div id="background">
+
+<div class="card">
+  	<div class="card-body">
+    	jessindo  
+    </div>
+</div>
+<br>
+	<div id="dom-section" class="section">
+		
+		<h3>Join My Room!!! 
+			<button style="margin-left:20px; float: right;">Join</button> 
+			<a style="float: right;">7/16</a>
+		</h3>
+		
+		<div class="container">
+		  <div class="row">
+		  	<div class = "col-10">
+		  		<div class="row">
+		  			<div class="col-3">
+		  				<p>jessindo</p>
+			  			<span class="dot"></span>
+				    </div>
+				    <div class="col-3">
+				    	<p>ashleysu</p>
+				      	<span class="dot"></span>
+				    </div>
+				    <div class="col-3">
+				    	<p>renac</p>
+				      	<span class="dot"></span>
+				    </div>	
+				    <div class="col-3">
+				    	<p>alisa</p>
+				      	<span class="dot"></span>
+				    </div>
+				</div>
+				<div class="row">
+		  			<div class="col-3">
+		  				<p>jacobi</p>
+			  			<span class="dot"></span>
+				    </div>
+				    <div class="col-3">
+				    	<p>bobtron</p>
+				      	<span class="dot"></span>
+				    </div>
+				    <div class="col-3">
+				    	<p>boyuan</p>
+				      	<span class="dot"></span>
+				    </div>	
+				</div>
+		  	</div>
+		  	<div class = "col-2 my-auto">
+		  		<div class="row">
+		  			<a href="game.html" target="_self" class="btn btn-lg btn-primary col-10">Start</a>
+		  		</div>
+		  		<div class="row">
+		  			<button type="button" class="btn btn-lg btn-primary col-10" style="margin-top:20px;">Ready</button>
+		  		</div>
+		  	</div>
+		    
+		  </div>
+		</div>
+
+		<h3>Hello World!! <button style="float: right;">Join</button> </h3>
+		<p>Velit pulvinar, at tincidunt orci placerat. Morbi blandit neque est, id posuere urna accumsan non. Pellentesque a ligula sed velit elementum efficitur. Proin ex lectus, porta vitae accumsan ut, mattis ac ante. Interdum et malesuada fames ac ante ipsum primis in faucibus. Etiam nec mauris tortor. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec sed diam volutpat odio mollis accumsan. Proin tempus erat sed lacinia condimentum. Fusce molestie ornare finibus. Nunc dictum vulputate scelerisque. Donec elementum semper arcu, eget blandit magna varius et. Integer pulvinar sem non sem volutpat varius. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.</p>
+
+		<h3>Another game room <button style="float: right;">Join</button> </h3>
+		<p>Interdum sed, finibus in nibh. Praesent eros lectus, fermentum at enim non, porta ultrices nisi. Aliquam odio libero, commodo id pulvinar eget, gravida non turpis. In mi massa, placerat ut ex sed, mollis imperdiet elit. Interdum et malesuada fames ac ante ipsum primis in faucibus. Morbi ultrices scelerisque fermentum. Quisque luctus sapien vitae dignissim ornare. Donec non lorem sagittis, condimentum augue vel, suscipit nisl. Praesent blandit eu ligula eu dictum. Donec faucibus purus in urna mollis, nec vulputate sem mollis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aliquam vulputate dignissim libero, ut blandit massa ultrices et. Fusce mattis luctus nibh. Donec rhoncus pretium lectus id sodales.</p>
+
+ 		<!-- <h3><button style="float: right;">Create a Room</button></h3>	 -->
+ 		<button class="btn btn-primary btn-lg btn-block" onclick="openForm()">Create a Room</button>
+		
+		</div>
+
+
+
+	</div> <!-- #dom-section -->
+</div>
+<div style="margin: auto;" class="form-popup" id="myForm">
+		  <form action="" class="form-container">
+		    <h4>Create Room</h4>
+
+		    <label for="roomName"><b>Name</b></label>
+		    <input type="text" placeholder="Enter a room name" name="roomName">
+
+		    	<div class = "row">
+		    		<div class="col">
+			    		<button type="submit" class="btn">Submit</button>	
+		    		</div>
+		    		<div class="col">
+		    			<button type="button" class="btn cancel" onclick="closeForm()">Cancel</button>
+		    		</div>
+			    </div>
+		    </div>
+		   
+		    
+		  </form>
+	<script>
+	function openForm() {
+	  document.getElementById("myForm").style.display = "block";
+	  document.getElementById("background").style.opacity = 0.3;
+	}
+
+	function closeForm() {
+	  document.getElementById("myForm").style.display = "none";
+	  document.getElementById("background").style.opacity = 1;
+	}
+	// Accordion
+	let titles = document.querySelectorAll("#dom-section h3");
+
+	for(let i = 0; i < titles.length; i++){
+	// register an event for each title
+	titles[i].onclick = function() {
+		// Get its sibling, the <p> tag
+		console.log(this.nextElementSibling);
+
+		// Writes inline CSS
+		// this.nextElementSibling.style.display = "none";
+
+		// Using CSS classes to handle hide/show
+		// Toggle using CSS class
+		if(this.nextElementSibling.classList.contains('hide')){
+			this.nextElementSibling.classList.remove('hide');
+		} else{
+			this.nextElementSibling.classList.add('hide');
+		}
+	}
+}
+
+	</script>
+</body>
+</html>
