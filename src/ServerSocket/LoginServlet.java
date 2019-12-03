@@ -23,7 +23,7 @@ import javax.servlet.http.HttpSession;
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	//CHANGE TO CORRECT CREDENTIALS
-	private static final String CREDENTIALS = "jdbc:mysql://google/Data?cloudSqlInstance=csci201-lab7-255417:us-central1:townofsc&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=salem&password=salem";
+	static final String CREDENTIALS = "jdbc:mysql://google/Data?cloudSqlInstance=csci201-lab7-255417:us-central1:townofsc&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=salem&password=salem";
 	
 	protected void service (HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
