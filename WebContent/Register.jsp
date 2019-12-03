@@ -8,7 +8,7 @@
 <style>
 
 	#registerform {
-		margin-top: 32%;
+		margin-top: 21.5%;
 		color: white;
 	}
 	.fields {
@@ -59,9 +59,10 @@
 		clear: both;
 	}
 	body {
-		background-image: url("images/welcometitlecrop2.png");
+		background-image: url("images/welcomecrop3.png");
 		background-repeat: no-repeat;
 		background-size: cover;
+		overflow: hidden;
 	}
 </style>
 </head>
