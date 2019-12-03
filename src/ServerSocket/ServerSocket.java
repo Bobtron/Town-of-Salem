@@ -27,8 +27,8 @@ public class ServerSocket {
 	
 	@OnMessage
 	public void onMessage(String message, Session session) {
-		//server.onMessage(thisID, message);
-		server.onMessage(thisID, "ID: " + thisID);
+		server.onMessage(thisID, message);
+		//server.onMessage(thisID, "ID: " + thisID);
 	}
 	
 	@OnClose
