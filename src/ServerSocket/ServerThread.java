@@ -91,11 +91,11 @@ public class ServerThread extends Thread {
 		
 		switch (CMD) {
 	        case "ALL":
-	        	gt.voteAll(remainder, user, org);
+	        	gt.vote(remainder, user, org);
 	        	break;
 	        	
 	        case "MAFIA":
-	        	gt.voteMafia(remainder, user, org);
+	        	gt.vote(remainder, user, org);
 	        	break;
 		}
 	}
