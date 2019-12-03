@@ -197,7 +197,10 @@ public class GameThread extends Thread {
 		broadcastTo("CLASS|TOWNS", townsPeople);
 		
 		
-		String players = "PLAYER_NAMES" + getUsernames(alive);
+		String players = "PLAYER_INFO"; //+ getUsernames(alive);
+		for(int i = 0; i < everyone.size(); i++) {
+			players += "|" + everyone.get(i).getUsername() + "|" + everyone.get(i).getImageURL();
+		}
 		broadcastAll(players);
 		
 		while(true) {
