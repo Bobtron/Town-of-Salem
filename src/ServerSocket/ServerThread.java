@@ -7,12 +7,14 @@ import javax.websocket.Session;
 public class ServerThread extends Thread {
 	
 	private Session session;
+	private User user;
 	
 	public ServerThread(Session session) {
 		this.session = session;
 	}
 	
 	public void onMessage(String message) {
+		
 		sendText(message);
 	}
 	

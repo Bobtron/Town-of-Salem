@@ -54,13 +54,6 @@ public class GameThread extends Thread {
 	public synchronized void addUser(User user) {
 		users.add(user);
 		dead.add(false);
-		
-		if(users.size() == totalPlayers) {
-			broadcastAll("All users have joined.");
-		}else {
-			broadcastAll("Waiting for " + (totalPlayers - users.size()) + " other user to join...");
-		}
-		
 	}
 	
 	public void broadcastAll(String message) {
