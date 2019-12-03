@@ -100,8 +100,8 @@
 	}
 	
 	function setUsername() {
-		sessionStorage.setItem("username", "Guest-" + document.guestform.user.value);
-		console.log(sessionStorage.getItem("username"));
+		session.setAttribute("username", "Guest-" + document.guestform.user.value);
+		console.log(session.getAttribute("username"));
 	}
 </script>
 
