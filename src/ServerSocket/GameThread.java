@@ -12,7 +12,6 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import javax.websocket.Session;
 
-import javafx.util.Pair;
 
 
 public class GameThread extends Thread {

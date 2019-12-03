@@ -19,7 +19,7 @@ public class ServerThread extends Thread {
 	
 	public void onMessage(String message) {
 		System.out.println(message);
-		sendText(message);
+		//sendText("CLIENT: " + message);
 		/**large sections is
 		 * 
 		 * chat of all kinds
